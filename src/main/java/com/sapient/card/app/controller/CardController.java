@@ -4,6 +4,7 @@ package com.sapient.card.app.controller;
  */
 
 import com.sapient.card.app.dto.Card;
+import com.sapient.card.app.repository.entity.CardEntity;
 import com.sapient.card.app.service.CardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,19 @@ public class CardController {
 
     @PostMapping(value="/v1/cards", produces = {MediaType.APPLICATION_JSON_VALUE} , consumes = {MediaType.APPLICATION_JSON_VALUE})
     public Mono<Card> createCard(@RequestBody final Card card){
-        return null;
+
+        log.info("creating the new card");
+
+        return cardService.createCard(card);
     }
 
 
     @GetMapping(value="/v1/cards",produces = {MediaType.APPLICATION_JSON_VALUE}  )
     public Flux<Card> getAllCards(){
-        return null;
+
+        log.info("Starting getAllCards");
+
+        return cardService.getAllCards() ;
     }
-
-
 
 }
