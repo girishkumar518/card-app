@@ -4,17 +4,14 @@ package com.sapient.card.app.dto;
  */
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.sapient.card.app.validation.CreditCard;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.math.BigInteger;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter @Setter @NoArgsConstructor @ToString @AllArgsConstructor
 public class Card {
 
     private Integer id;
@@ -23,6 +20,7 @@ public class Card {
     private String name;
 
     @NotNull
+    @CreditCard
     private String number;
 
     private Double limit;

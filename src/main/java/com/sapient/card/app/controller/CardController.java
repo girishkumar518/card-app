@@ -4,14 +4,18 @@ package com.sapient.card.app.controller;
  */
 
 import com.sapient.card.app.dto.Card;
-import com.sapient.card.app.repository.entity.CardEntity;
 import com.sapient.card.app.service.CardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.xml.bind.ValidationException;
 
 @RestController
 @Slf4j
@@ -22,10 +26,10 @@ public class CardController {
 
 
     @PostMapping(value="/v1/cards", produces = {MediaType.APPLICATION_JSON_VALUE} , consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public Mono<Card> createCard(@RequestBody final Card card){
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<Card> createCard( @RequestBody @Validated final Card card){
 
         log.info("creating the new card");
-
         return cardService.createCard(card);
     }
 
