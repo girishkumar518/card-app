@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: cards-app
+  name: cards-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cards-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: cards-app
+    spec:
+      containers:
+        - image: girishkumar518/cards-app
+          name: cards-app
+          resources: {}
+status: {}
