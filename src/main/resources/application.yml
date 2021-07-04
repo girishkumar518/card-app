@@ -3,3 +3,7 @@ spring:
     name: cards-app
   profiles:
     active: local
+management:
+  endpoint:
+    health:
+      show-details: always
