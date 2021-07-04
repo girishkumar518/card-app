@@ -14,12 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 /*
  *  Created by Girish Kumar CH on 7/2/21
@@ -72,10 +74,17 @@ public class ErrorController extends AbstractErrorController {
             CardAppException se = null;
 
             bindingResult.getFieldErrors().forEach(c->c.getField());
-            
+
+            Optional<FieldError> fieldErrorObject;
+            //handling all the validtions
             if(bindingResult.hasFieldErrors())
-                if(bindingResult.getFieldErrors().stream().filter(e->e.getField().equalsIgnoreCase("number")).findAny().isPresent())
-                    se =new CardAppException(Errors.VALIDATION_INVALID_CARD_NUMBER);
+                if( ( fieldErrorObject =  bindingResult.getFieldErrors().stream().filter(e->e.getField().equalsIgnoreCase("number")).findFirst()).isPresent())
+                   if(fieldErrorObject.get().getDefaultMessage().equalsIgnoreCase(Errors.VALIDATION_INVALID_CARD_NUMBER.getMessage()))
+                        se =new CardAppException(Errors.VALIDATION_INVALID_CARD_NUMBER);
+                   else if(fieldErrorObject.get().getDefaultMessage().equalsIgnoreCase(Errors.VALIDATION_INVALID_CARD_NUMBER_LENGTH.getMessage()))
+                       se =new CardAppException(Errors.VALIDATION_INVALID_CARD_NUMBER_LENGTH);
+                   else if(fieldErrorObject.get().getDefaultMessage().equalsIgnoreCase(Errors.VALIDATION_INVALID_CARD_NUMBER_NUMERIC.getMessage()))
+                       se =new CardAppException(Errors.VALIDATION_INVALID_CARD_NUMBER_NUMERIC);
                 else
                     se =new CardAppException(Errors.VALIDATION_ERROR_REQUEST_BODY);
            else

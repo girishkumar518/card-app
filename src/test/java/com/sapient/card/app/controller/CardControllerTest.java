@@ -109,6 +109,30 @@ public class CardControllerTest {
     }
 
     @Test
+    public void testFailCreateCardWhenAlphaNumericCardNumber(){
+        Card card = new Card(null, "TestCard" , "399273fgfd98716" , 0.9 );
+        webTestClient.post().uri("/v1/cards").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .body(Mono.just(card),Card.class)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody()
+                .jsonPath("$.statusCode").isEqualTo(Errors.VALIDATION_INVALID_CARD_NUMBER_NUMERIC.getCode())
+                .jsonPath("$.statusMessage").isEqualTo(Errors.VALIDATION_INVALID_CARD_NUMBER_NUMERIC.getMessage());
+    }
+
+    @Test
+    public void testFailCreateCardWhenInvalidCardNumberLength(){
+        Card card = new Card(null, "TestCard" , "92445678912345678911" , 0.9 );
+        webTestClient.post().uri("/v1/cards").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
+                .body(Mono.just(card),Card.class)
+                .exchange()
+                .expectStatus().isBadRequest()
+                .expectBody()
+                .jsonPath("$.statusCode").isEqualTo(Errors.VALIDATION_INVALID_CARD_NUMBER_LENGTH.getCode())
+                .jsonPath("$.statusMessage").isEqualTo(Errors.VALIDATION_INVALID_CARD_NUMBER_LENGTH.getMessage());
+    }
+
+    @Test
     public void testFailCreateCardWhenBlankName(){
         Card card = new Card(null, "" , "69928398713" , 0.9 );
         webTestClient.post().uri("/v1/cards").contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
@@ -116,8 +140,8 @@ public class CardControllerTest {
                 .exchange()
                 .expectStatus().isBadRequest()
                 .expectBody()
-                .jsonPath("$.statusCode").isEqualTo(Errors.VALIDATION_ERROR_REQUEST_BODY.getCode())
-                .jsonPath("$.statusMessage").isEqualTo(Errors.VALIDATION_ERROR_REQUEST_BODY.getMessage());
+                .jsonPath("$.statusCode").isEqualTo(Errors.INVALID_MSG.getCode())
+                .jsonPath("$.statusMessage").isEqualTo(Errors.INVALID_MSG.getMessage());
     }
 
     @Test

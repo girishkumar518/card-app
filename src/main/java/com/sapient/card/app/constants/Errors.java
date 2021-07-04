@@ -4,9 +4,13 @@ import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
 
+import static com.sapient.card.app.constants.ApplicationConstants.*;
+
 public enum Errors {
 
-    VALIDATION_INVALID_CARD_NUMBER ("VALIDATION_INVALID_CARD_NUMBER","Invalid card number provided"),
+    VALIDATION_INVALID_CARD_NUMBER ("VALIDATION_INVALID_CARD_NUMBER", VALIDATION_INVALID_CARD_NUMBER_MSG),
+    VALIDATION_INVALID_CARD_NUMBER_LENGTH ("VALIDATION_INVALID_CARD_NUMBER_LENGTH",VALIDATION_INVALID_CARD_NUMBER_LENGTH_MSG),
+    VALIDATION_INVALID_CARD_NUMBER_NUMERIC ("VALIDATION_INVALID_CARD_NUMBER_NUMERIC", VALIDATION_INVALID_CARD_NUMBER_NUMERIC_MSG),
     VALIDATION_ERROR_REQUEST_BODY("VALIDATION_ERROR_REQUEST_BODY","Validation Error in request body"),
     INVALID_MSG("ERROR_INVALID_MSG", "Invalid Request body"),
     UNMAPPED("ERROR_UNMAPPED", "Server cannot handle this request"),
@@ -35,6 +39,8 @@ public enum Errors {
         errorStatusMap.put(UNMAPPED.getCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         errorStatusMap.put(INTERNAL_SERVER.getCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         errorStatusMap.put(CARD_NUMBER_EXISTED.getCode(), HttpStatus.BAD_REQUEST);
+        errorStatusMap.put(VALIDATION_INVALID_CARD_NUMBER_LENGTH.getCode(), HttpStatus.BAD_REQUEST);
+        errorStatusMap.put(VALIDATION_INVALID_CARD_NUMBER_NUMERIC.getCode(), HttpStatus.BAD_REQUEST);
 
 
     }
