@@ -1,4 +1,4 @@
-#Cards Application
+# Cards Application
 
 Cards application is microservice developed using below frameworks 
 Used spring boot reactive programiing . Reactive Streams are implemented using WebFlux Reactive API 
@@ -35,7 +35,7 @@ Cards Application is Reactive RESTful Webservice
 - Take docker image from docker repo and run `docker run -p localMachinePort:imageExposePort girishkumar518/cards-app` ex: `docker run -p 8080:8080 girishkumar518/cards-app` 
 
 
-###Useful links
+### Useful links
 
 - Swagger URL - http://localhost:8080/swagger-ui/#
 - api-docs - http://localhost:8080/v2/api-docs
